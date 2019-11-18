@@ -3,6 +3,7 @@ package com.example.androidtopc;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.InputStream;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private OutputStream outputStream;
     private InputStream inputStream;
     SocketBuildThread socketBuildThread;
+    SocketReceiveThread socketReceiveThread;
+    SocketSendThread socketSendThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +41,11 @@ public class MainActivity extends AppCompatActivity {
         }
         socketBuildThread = new SocketBuildThread();
         socketBuildThread.start();
+        //Toast.makeText(this, "服务开启", Toast.LENGTH_SHORT).show();
+        socketReceiveThread = new SocketReceiveThread();
+        socketReceiveThread.start();
         Toast.makeText(this, "服务开启", Toast.LENGTH_SHORT).show();
+
     }
 
     class SocketBuildThread extends Thread
@@ -65,9 +72,33 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run()
         {
+            byte[] buffer = new byte[64];
+            while (!interrupted())
+            {
+                try {
+                    if(buffer==null){continue;}
+                    int count = inputStream.read(buffer);
+                    if(count==-1){continue;}
+
+                    String receiveData = new String(buffer, 0, count);
+                    Log.d("Receive Thread", "read buffer: "+ receiveData + ", count: "+ count);
+
+                }catch (Exception e){
+                    //e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    class SocketSendThread extends Thread
+    {
+        @Override
+        public void run()
+        {
             try {
 
-                
+
             }catch (Exception e){
                 e.printStackTrace();
             }
