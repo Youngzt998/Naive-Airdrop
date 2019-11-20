@@ -8,8 +8,13 @@ import android.widget.Toast;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.MulticastSocket;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,18 +27,27 @@ public class MainActivity extends AppCompatActivity {
     SocketReceiveThread socketReceiveThread;
     SocketSendThread socketSendThread;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startServer();
+
+        UdpReceiveThread udpReceiveThread = new UdpReceiveThread();
+        udpReceiveThread.start();
+
+        UdpSendThread udpSendThread = new UdpSendThread();
+        udpSendThread.start();
     }
 
     public void startServer()
     {
         try {
-            serverSocket = new ServerSocket(8001);
+            serverSocket = new ServerSocket(8002);
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(this, "绑定端口失败...", Toast.LENGTH_SHORT).show();
@@ -93,16 +107,9 @@ public class MainActivity extends AppCompatActivity {
 
     class SocketSendThread extends Thread
     {
-        @Override
-        public void run()
-        {
-            try {
 
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
     }
+
+
 
 }
