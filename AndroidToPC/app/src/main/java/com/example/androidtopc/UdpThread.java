@@ -48,16 +48,37 @@ class UdpReceiveThread extends Thread
         while (!interrupted())
         {
             try {
-                Log.d("UDP Receive Thread", "receiving data");
                 multicastSocket.receive(datagramPacket);
-                Log.d("UDP Receive Thread", "read buffer: "+ new String(buffer, 0, datagramPacket.getLength()));
+                String receiveString = new String(buffer, 0, datagramPacket.getLength());
+                Log.d(TAG, "read buffer: "+ receiveString);
+
+                String[] receiveData = splitData(receiveString);
+                if(receiveData==null)
+                {
+                    Log.d(TAG, "wrong receive data ");
+                    continue;
+                    //
+                }
+                Log.d(TAG, "\n"+"\nName: " + receiveData[0] + "\nIP: " + receiveData[1] + "\nPort:" + receiveData[2]);
             }catch (Exception e){
-                Log.d("UDP Receive Thread", "read buffer error ");
+                Log.d(TAG, "read buffer error ");
                 e.printStackTrace();
             }
         }
-
     }
+
+    private String[] splitData(String receiveData)
+    {
+        try {
+            String[] result = new String[3];
+            result = receiveData.split(" ");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 
 //send UDP message

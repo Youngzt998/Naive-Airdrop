@@ -4,7 +4,7 @@ import threading as threading
 
 
 class UdpBroadcastSendingThread(object):
-    def __init__(self):
+    def __init__(self, myTcpPort):
         # get my name and ip
         self.myName = socket.gethostname()
         self.myIP = socket.gethostbyname(self.myName)
@@ -13,6 +13,7 @@ class UdpBroadcastSendingThread(object):
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         self.broadcastPort = 8003
         self.broadCastIP = "<broadcast>"
+        self.myTcpPort = myTcpPort
 
         self.thread = None
         self.exitState = False
@@ -42,11 +43,6 @@ class UdpBroadcastSendingThread(object):
         print "start broad cast"
         while not self.isInterrupted():
             # print "broad cast a message"
-            self.socket.sendto(self.myName + " " + self.myIP, (self.broadCastIP, self.broadcastPort))
+            self.socket.sendto(self.myName + " " + self.myIP + " " + str(self.myTcpPort), (self.broadCastIP, self.broadcastPort))
             time.sleep(2)
 
-
-udpThread = UdpBroadcastSendingThread()
-udpThread.startThread()
-input("input anything to interrupt the thread")
-udpThread.interrupt()
