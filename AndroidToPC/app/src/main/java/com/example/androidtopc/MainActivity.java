@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.InputStream;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         UdpReceiveThread udpReceiveThread = new UdpReceiveThread();
         udpReceiveThread.start();
 
-        UdpSendThread udpSendThread = new UdpSendThread();
+
+        UdpSendThread udpSendThread = new UdpSendThread(this.getApplicationContext());
         udpSendThread.start();
     }
 
@@ -109,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     {
 
     }
-
 
 
 }

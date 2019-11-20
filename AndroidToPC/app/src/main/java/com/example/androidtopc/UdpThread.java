@@ -1,13 +1,19 @@
 package com.example.androidtopc;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.util.Log;
+import android.view.View;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-//receive UDP message
+//receive UDP message, locate target ip address
 class UdpReceiveThread extends Thread
 {
     private String TAG = "UDP Receive Thread";
@@ -60,15 +66,18 @@ class UdpSendThread extends Thread
     private String TAG = "UDP Send Thread";
     private String multicastHost = "224.0.0.1";     //broadcast
     private String broadCastIP = "255.255.255.255";
+    private String hotplotBreadCastIp = "192.168.43.255";
     private int targetPort = 8004;
     MulticastSocket multicastSocket;
     InetAddress inetAddress;
-    UdpSendThread()
+    Context context;
+
+    //parameter:  Context of mainActivity
+    UdpSendThread(Context context)
     {
+        this.context = context;
         try{
             multicastSocket = new MulticastSocket();
-            inetAddress = InetAddress.getByName(broadCastIP);
-            System.out.println(inetAddress.isMulticastAddress());
             Log.d(TAG, "init finished ");
         }catch (Exception e){
             Log.d(TAG, "init error ");
@@ -84,6 +93,16 @@ class UdpSendThread extends Thread
         while (!interrupted())
         {
             try {
+
+                if(isWifiApEnabled(this.context))
+                {
+                    inetAddress = InetAddress.getByName(hotplotBreadCastIp);
+                }
+                else {
+                    inetAddress = InetAddress.getByName(broadCastIP);
+                }
+
+
                 Log.d(TAG, "sending UDP message ");
                 //System.out.println(inetAddress.isMulticastAddress());
 
@@ -98,5 +117,21 @@ class UdpSendThread extends Thread
                 e.printStackTrace();
             }
         }
+    }
+
+    //is our phone using Hotspot?
+    public  Boolean isWifiApEnabled(Context context) {
+        try {
+            WifiManager manager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
+            Method method = manager.getClass().getMethod("isWifiApEnabled");
+            return (Boolean)method.invoke(manager);
+        }
+        catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)  {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

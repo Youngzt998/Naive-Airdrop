@@ -1,4 +1,8 @@
 package com.example.androidtopc;
 
-public class TcpClientThread {
-}
+import android.util.Log;
+
+
+
+
+

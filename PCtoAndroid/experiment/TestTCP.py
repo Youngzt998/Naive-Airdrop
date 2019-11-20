@@ -9,12 +9,12 @@ print hostname, ip
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-PORT = 8003
-dstIP = "<broadcast>"
+broadcastPort = 8003
+broadCastIP = "<broadcast>"
 
 print "start broad cast"
 while True:
-    s.sendto(hostname+" "+ip, (dstIP, PORT))
+    s.sendto(hostname+" "+ip, (broadCastIP, broadcastPort))
     time.sleep(5)
 
 
