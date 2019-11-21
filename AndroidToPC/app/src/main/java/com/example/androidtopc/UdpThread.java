@@ -3,6 +3,9 @@ package com.example.androidtopc;
 import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
@@ -21,8 +24,9 @@ class UdpReceiveThread extends Thread
     private DatagramSocket datagramSocket;
     String multicastHost = "224.0.0.1";
     InetAddress inetAddress;        //reveive address
+    BroadCastMessageHandler broadCastMessageHandler;
 
-    UdpReceiveThread()
+    UdpReceiveThread(BroadCastMessageHandler broadCastMessageHandler)
     {
         try {
             multicastSocket = new MulticastSocket(8003);
@@ -34,6 +38,7 @@ class UdpReceiveThread extends Thread
 //                datagramSocket.setBroadcast(true);
 //                datagramSocket.bind(InetSocketAddress(8003));
             Log.d(TAG, "finish initializing thread ");
+            this.broadCastMessageHandler = broadCastMessageHandler;
         }catch (Exception e){
             Log.d(TAG, "init error ");
             e.printStackTrace();
@@ -50,7 +55,7 @@ class UdpReceiveThread extends Thread
             try {
                 multicastSocket.receive(datagramPacket);
                 String receiveString = new String(buffer, 0, datagramPacket.getLength());
-                Log.d(TAG, "read buffer: "+ receiveString);
+                //Log.d(TAG, "read buffer: "+ receiveString);
 
                 String[] receiveData = splitData(receiveString);
                 if(receiveData==null)
@@ -59,7 +64,8 @@ class UdpReceiveThread extends Thread
                     continue;
                     //
                 }
-                Log.d(TAG, "\n"+"\nName: " + receiveData[0] + "\nIP: " + receiveData[1] + "\nPort:" + receiveData[2]);
+                //Log.d(TAG, "\n"+"\nName: " + receiveData[0] + "\nIP: " + receiveData[1] + "\nPort:" + receiveData[2]);
+                broadCastMessageHandler.sendString(receiveData);
             }catch (Exception e){
                 Log.d(TAG, "read buffer error ");
                 e.printStackTrace();
@@ -70,8 +76,7 @@ class UdpReceiveThread extends Thread
     private String[] splitData(String receiveData)
     {
         try {
-            String[] result = new String[3];
-            result = receiveData.split(" ");
+            String[] result = receiveData.split(" ");
             return result;
         }catch (Exception e){
             e.printStackTrace();
@@ -81,7 +86,59 @@ class UdpReceiveThread extends Thread
 
 }
 
-//send UDP message
+
+// receive message: from thread to main activity
+class BroadCastMessageHandler extends Handler
+{
+    private String TAG = "messageHandler";
+    private static final int BROAD_CAST_MESSAGE = 0;
+    String[] receiveData = null;
+    Looper looper;
+    BroadCastMessageHandler()
+    {
+
+    }
+
+    @Override
+    public void handleMessage(Message msg)
+    {
+        Log.d(TAG, "handleMessage");
+        switch (msg.what)
+        {
+            case BROAD_CAST_MESSAGE:
+                try {
+                    receiveData = (String[]) msg.obj;
+                    Log.d(TAG, "\n"+"\nName: " + receiveData[0] + "\nIP: " + receiveData[1] + "\nPort:" + receiveData[2]);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void sendString(String[] receiveData)
+    {
+        Message msg = new Message();
+        msg.what = BROAD_CAST_MESSAGE;
+        msg.obj = receiveData;
+        this.sendMessage(msg);
+    }
+
+    public String[] getMessage()
+    {
+        String[] result = receiveData;
+        //receiveData = null;
+        return receiveData;
+    }
+
+}
+
+
+
+
+//send UDP message; for test;  no use in this project
 class UdpSendThread extends Thread
 {
     private String TAG = "UDP Send Thread";

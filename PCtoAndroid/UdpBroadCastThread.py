@@ -4,16 +4,19 @@ import threading as threading
 
 
 class UdpBroadcastSendingThread(object):
-    def __init__(self, myTcpPort):
+    def __init__(self, myTcpPort, targetUdpPort=8003):
         # get my name and ip
         self.myName = socket.gethostname()
         self.myIP = socket.gethostbyname(self.myName)
+        self.myTcpPort = myTcpPort
+        self.myTcpPortLock = threading.Lock()
+
         # set udp mode
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        self.broadcastPort = 8003
+        self.broadcastPort = targetUdpPort
         self.broadCastIP = "<broadcast>"
-        self.myTcpPort = myTcpPort
+
 
         self.thread = None
         self.exitState = False
@@ -24,6 +27,8 @@ class UdpBroadcastSendingThread(object):
         self.thread.start()
         return
 
+    def changePort(self, newTcpPort):
+        self.myTcpPort = newTcpPort
 
     def interrupt(self):
         self.exitLock.acquire()
