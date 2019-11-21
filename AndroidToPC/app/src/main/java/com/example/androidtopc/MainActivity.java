@@ -3,6 +3,7 @@ package com.example.androidtopc;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -18,6 +19,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.MulticastSocket;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         TcpClientThread tcpClientThread = new TcpClientThread();
         tcpClientThread.start();
 
-
+        MyFileObserver myFileObserver = new MyFileObserver(Environment.getRootDirectory().getPath());
+        myFileObserver.startWatching();
 
 
 //        UdpSendThread udpSendThread = new UdpSendThread(this.getApplicationContext());
