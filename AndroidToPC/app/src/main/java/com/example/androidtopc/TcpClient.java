@@ -10,6 +10,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 
+// the thread for connecting to the server
 class TcpClientThread extends Thread
 {
     private String TAG = "TcpClientThread";

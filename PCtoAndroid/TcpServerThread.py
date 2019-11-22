@@ -98,9 +98,13 @@ class TcpServerTransThread(object):
         while not self.isInterrupted():
             try:
                 data = self.clientSock.recv(64)
+                if data == b"":
+                    print "client has disconnected socket"
+                    break
                 print data
             except Exception, e:
-                print "trans thread error"
+                print "trans thread error, network environment might have changed", e.message
+                break
 
             if not data:
                 continue
