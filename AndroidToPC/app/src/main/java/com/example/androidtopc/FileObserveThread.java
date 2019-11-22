@@ -3,14 +3,17 @@ package com.example.androidtopc;
 import android.os.Environment;
 import android.os.FileObserver;
 
+import java.util.EventListener;
+
 public class FileObserveThread extends Thread
 {
     private MyFileObserver myFileObserver;
 
     FileObserveThread()
     {
-        myFileObserver = new MyFileObserver("/storage/emulated/0/DCIM/Camera");
+        myFileObserver = new MyFileObserver(Environment.getExternalStorageDirectory().getPath());
         myFileObserver.startWatching();
+
     }
 
     @Override

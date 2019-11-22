@@ -1,7 +1,9 @@
 package com.example.androidtopc;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    private String testPath = "/0_ComputerNetworkProject/test.jpg";
+    private String myCameraPath = "/DCIM/Camera";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,24 +41,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //start client thread
         TcpClientThread tcpClientThread = new TcpClientThread();
         tcpClientThread.start();
 
-        MyFileObserver myFileObserver = new MyFileObserver(Environment.getRootDirectory().getPath());
+        MyFileObserver myFileObserver =
+                new MyFileObserver(Environment.getExternalStorageDirectory().getPath()
+                        + testPath);
+
         myFileObserver.startWatching();
+
+        applyFileOperationPermission();
 
 
 //        UdpSendThread udpSendThread = new UdpSendThread(this.getApplicationContext());
 //        udpSendThread.start();
 
-
     }
 
 
-
-
-
-
+    //dynamically apply permission
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
+    void applyFileOperationPermission()
+    {
+        try {
+            if (ActivityCompat.checkSelfPermission(this,
+                    "android.permission.WRITE_EXTERNAL_STORAGE")
+                != PackageManager.PERMISSION_GRANTED)
+            {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
 

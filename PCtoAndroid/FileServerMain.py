@@ -13,9 +13,10 @@ import matplotlib.image as mpimg
 # img.save('test.png')
 
 myTcpPort = 8002
+targetUdpPort = 8003
 
 # keeping broad cast my name, ip. port once a few second
-udpThread = UdpBroadCastThread.UdpBroadcastSendingThread(myTcpPort=myTcpPort, targetUdpPort=8003)
+udpThread = UdpBroadCastThread.UdpBroadcastSendingThread(myTcpPort=myTcpPort, targetUdpPort=targetUdpPort)
 udpThread.startThread()
 
 tcpServerThread = TcpServerThread.TcpServerBuildThread(myTcpPort)
