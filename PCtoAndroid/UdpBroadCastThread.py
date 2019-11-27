@@ -48,8 +48,11 @@ class UdpBroadcastSendingThread(object):
         print "start broad cast"
         while not self.isInterrupted():
             # print "broad cast a message"
-            self.myName = socket.gethostname()
-            self.myIP = socket.gethostbyname(self.myName)
-            self.socket.sendto(self.myName + " " + self.myIP + " " + str(self.myTcpPort), (self.broadCastIP, self.broadcastPort))
-            time.sleep(2)
-
+            try:
+                self.myName = socket.gethostname()
+                self.myIP = socket.gethostbyname(self.myName)
+                self.socket.sendto(self.myName + " " + self.myIP + " " + str(self.myTcpPort), (self.broadCastIP, self.broadcastPort))
+                time.sleep(2)
+            except Exception, e:
+                print "broadcast failed: ", e.message
+                time.sleep(5)

@@ -130,7 +130,7 @@ class BroadCastMessageHandler extends Handler
     {
         String[] result = receiveData;
         //receiveData = null;
-        return receiveData;
+        return result;
     }
 
 }
@@ -138,7 +138,7 @@ class BroadCastMessageHandler extends Handler
 
 
 
-//send UDP message; for test;  no use in this project
+//send UDP message; for test;  no use in this project, but can be used in other projects
 class UdpSendThread extends Thread
 {
     private String TAG = "UDP Send Thread";

@@ -3,6 +3,7 @@ package com.example.androidtopc;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private int serverPort;
 
 
-
-    private String testPath = "/0_ComputerNetworkProject/test.jpg";
+    private String observePath;
+    private String testPath = "/0_ComputerNetworkProject/test.jpeg";
+    private String testDir = "0_ComputerNetworkProject";
     private String myCameraPath = "/DCIM/Camera";
 
 
@@ -41,22 +43,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+//        Intent mainSercive = new Intent(this, MainService.class);
+//        startService(mainSercive);
+
         //start client thread
-        TcpClientThread tcpClientThread = new TcpClientThread();
+        observePath = Environment.getExternalStorageDirectory().getPath()+ "/" + myCameraPath;
+        TcpClientThread tcpClientThread = new TcpClientThread(observePath);
         tcpClientThread.start();
 
-        MyFileObserver myFileObserver =
-                new MyFileObserver(Environment.getExternalStorageDirectory().getPath()
-                        + testPath);
 
-        myFileObserver.startWatching();
+        //FileObserveThread fileObserveThread = new FileObserveThread(Environment.getExternalStorageDirectory().getPath()+testDir);
+
+        //myFileObserver.startWatching();
 
         applyFileOperationPermission();
-
 
 //        UdpSendThread udpSendThread = new UdpSendThread(this.getApplicationContext());
 //        udpSendThread.start();
 
+    }
+
+
+    @Override
+    public void finish()
+    {
+        moveTaskToBack(true);
     }
 
 
@@ -78,31 +90,5 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-    public void startServer()
-    {
-        try {
-            serverSocket = new ServerSocket(8002);
-        }catch (Exception e){
-            e.printStackTrace();
-            Toast.makeText(this, "绑定端口失败...", Toast.LENGTH_SHORT).show();
-            return;
-        }
-//        socketBuildThread = new SocketBuildThread();
-//        socketBuildThread.start();
-//        //Toast.makeText(this, "服务开启", Toast.LENGTH_SHORT).show();
-//        socketReceiveThread = new SocketReceiveThread();
-//        socketReceiveThread.start();
-//        Toast.makeText(this, "服务开启", Toast.LENGTH_SHORT).show();
-
-    }
-
-
-
-
 
 }

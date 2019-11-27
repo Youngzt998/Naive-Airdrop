@@ -19,13 +19,16 @@ targetUdpPort = 8003
 udpThread = UdpBroadCastThread.UdpBroadcastSendingThread(myTcpPort=myTcpPort, targetUdpPort=targetUdpPort)
 udpThread.startThread()
 
+# build the server socket and provide service for mutiple client
 tcpServerThread = TcpServerThread.TcpServerBuildThread(myTcpPort)
 tcpServerThread.startMainThread()
 
-
+# create UI
 top = Tkinter.Tk()
 fileDirGetUI = UiClass.FileDirGetUI(top)
 top.mainloop()
+
+
 
 
 

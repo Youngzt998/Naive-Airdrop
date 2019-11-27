@@ -13,6 +13,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
@@ -23,14 +26,19 @@ class TcpClientThread extends Thread
     private String TAG = "TcpClientThread";
 
 
-    private String testFileName = "test.mp4";
-    private String testFilePath = "/0_ComputerNetworkProject/"+testFileName;
+    private String observePath;
+    private String testFileName1 = "test.mp4";
+    private String testFilePath1 = "/0_ComputerNetworkProject/"+testFileName1;
+    private String testFileName2 = "test.jpg";
+    private String testFilePath2 = "/0_ComputerNetworkProject/"+testFileName2;
+
     private String myCameraPath = "/DCIM/Camera";
 
     private String UPLOAD_FILE_REQUEST = "UPLOADFILE";
 
     private String ASK_FILE_NAME_ANSWER = "ASK_FILE_NAME";
     private String RECEIVE_FILE_ANSWER = "RECEIVE_FILE";
+    private String FILE_EXISTS_ANSWER = "FILE_EXISTS";
 
     private String CANCEL_UPLOAD_REQUEST = "CANCELUPLOAD";
 
@@ -43,15 +51,21 @@ class TcpClientThread extends Thread
     BroadCastMessageHandler broadCastMessageHandler;
     UdpReceiveThread udpReceiveThread;
 
+    FileObserveThread fileObserveThread;
+
+
     Socket clientSocket;
     InputStream inputStream;
     OutputStream outputStream;
 
-    TcpClientThread()
+    TcpClientThread(String observePath)
     {
+        this.observePath = observePath;
         try {
             // for receiving broad cast message from subthread
             broadCastMessageHandler = new BroadCastMessageHandler();
+            fileObserveThread = new FileObserveThread(observePath);
+            fileObserveThread.start();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -93,17 +107,25 @@ class TcpClientThread extends Thread
             Log.d(TAG, "connect successed, close broadcast receiving thread!");
             udpReceiveThread.interrupt();
 
-            String fileName = testFileName;
-            String filePath = Environment.getExternalStorageDirectory().getPath()
-                    + testFilePath;
-
-            //starting upload a file
-            if (uploadFile(fileName, filePath) != 0)
+            while (true)
             {
-                Log.d(TAG, "upload failed!");
+                //the list of current file
+                ArrayList<String> fileInfo = fileObserveThread.getInfo();
+                Log.d(TAG, "Start uploading file, number is: " + fileInfo.size());
+                for (int i =0; i< fileInfo.size(); ++i)
+                {
+                    Log.d(TAG, i + " " + observePath + fileInfo.get(i));
+                    uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
+                }
+                try {
+                    sleep(10000);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
-            Log.d(TAG, "connect finished sucessfully!");
-            while (true){}
+
+            //Map<String, Integer> map = new HashMap();
         }
         Looper.loop();
 
@@ -121,7 +143,9 @@ class TcpClientThread extends Thread
 
     private int UPLOAD_SUCESS = 0;
     private int UPLOAD_FAILED = 1;
-    int uploadFile(String filename, String localPath)
+    private int FILE_EXISTS = 2;
+    //filename: relative path
+    int uploadFile(String filename, String absolutePath)
     {
 
         //start file transfer
@@ -129,50 +153,54 @@ class TcpClientThread extends Thread
         byte[] header = new byte[4];
         String prefix = "filename ";
 
-        String receoveData;
+        String receiveData;
         int receiveLen;
         try {
-            //TBD: while still being connected
-            while (true)
-            {
-
                 try {
                     // ask to upload a file
                     outputStream.write(UPLOAD_FILE_REQUEST.getBytes());
                     //receive "asking name answer"
                     receiveLen = inputStream.read(receiveBuffer);
-                    receoveData = new String(receiveBuffer, 0, receiveLen);
-                    System.out.println("yzt1: "+ receoveData);
-                    if (receoveData.compareTo(ASK_FILE_NAME_ANSWER)!=0)
+                    receiveData = new String(receiveBuffer, 0, receiveLen);
+                    //System.out.println("yzt1: "+ receiveData);
+                    if (receiveData.compareTo(ASK_FILE_NAME_ANSWER)!=0)
                     {
+                        if(receiveData.compareTo(FILE_EXISTS_ANSWER)==0)
+                        {
+                            Log.d(TAG, "file "+ filename + " already exists in remote server!");
+                            return FILE_EXISTS;
+                        }
+
                         outputStream.write(CANCEL_UPLOAD_REQUEST.getBytes());
-                        continue;
+                        return UPLOAD_FAILED;
                     }
                     //tell file name
                     outputStream.write((prefix+filename).getBytes());
 
                     //receive upload file answer
                     receiveLen = inputStream.read(receiveBuffer);
-                    receoveData = new String(receiveBuffer, 0, receiveLen);
-                    System.out.println("yzt2: "+receoveData.toString());
-                    if(receoveData.compareTo(RECEIVE_FILE_ANSWER)!=0)
+                    receiveData = new String(receiveBuffer, 0, receiveLen);
+                    //System.out.println("yzt2: "+receiveData.toString());
+                    if(receiveData.compareTo(RECEIVE_FILE_ANSWER)!=0)
                     {
                         outputStream.write(CANCEL_UPLOAD_REQUEST.getBytes());
-                        continue;
+                        return UPLOAD_FAILED;
                     }
+
 
                 }catch (Exception e){
                     Log.d(TAG, "pre trans error");
                     e.printStackTrace();
-                    //continue;
+                    return UPLOAD_FAILED;
+
                 }
 
                 try {
                     //open target file
-                    File file = new File(localPath);
+                    File file = new File(absolutePath);
                     FileInputStream fileOutStream = new FileInputStream(file);
                     int count = fileOutStream.available();
-                    System.out.println("yzt3: test file size is "+count);
+                    System.out.println("yzt3: test file size is "+ count/1024 + "KB");
 
                     //send the file size
                     header = intToByte(count);
@@ -196,28 +224,26 @@ class TcpClientThread extends Thread
                         outputStream.write(sendFileBuffer);
                     }
 
-                    System.out.println("yzt4: client finished sending file");
-
+                    //System.out.println("yzt4: client finished sending file");
+                    Log.d(TAG, "Finish upload" + filename);
                     //outputStream.flush();
                     fileOutStream.close();
-
-
 
                 }catch (Exception e){
                     Log.d(TAG, "Open trans error");
                     e.printStackTrace();
+                    return UPLOAD_FAILED;
                 }
 
                 // outputStream.write("One plus 7p".getBytes());
-                interrupted();
-            }
+                //interrupted();
 
         }catch (Exception e){
             Log.d(TAG, "write failed!");
             e.printStackTrace();
 
         }
-        return 0;
+        return UPLOAD_SUCESS;
     }
 
     //subthread
