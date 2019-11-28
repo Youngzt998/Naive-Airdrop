@@ -34,13 +34,13 @@ class TcpClientThread extends Thread
 
     private String myCameraPath = "/DCIM/Camera";
 
-    private String UPLOAD_FILE_REQUEST = "UPLOADFILE";
+    private String UPLOAD_FILE_REQUEST = "UPLOADFILE$";
 
-    private String ASK_FILE_NAME_ANSWER = "ASK_FILE_NAME";
-    private String RECEIVE_FILE_ANSWER = "RECEIVE_FILE";
-    private String FILE_EXISTS_ANSWER = "FILE_EXISTS";
+    private String ASK_FILE_NAME_ANSWER = "ASK_FILE_NAME$";
+    private String RECEIVE_FILE_ANSWER = "RECEIVE_FILE$";
+    private String FILE_EXISTS_ANSWER = "FILE_EXISTS$";
 
-    private String CANCEL_UPLOAD_REQUEST = "CANCELUPLOAD";
+    private String CANCEL_UPLOAD_REQUEST = "CANCELUPLOAD$";
 
     private String serverName;
     private String serverIP;
@@ -114,9 +114,12 @@ class TcpClientThread extends Thread
                 Log.d(TAG, "Start uploading file, number is: " + fileInfo.size());
                 for (int i =0; i< fileInfo.size(); ++i)
                 {
-                    Log.d(TAG, i + " " + observePath + fileInfo.get(i));
+                    //Log.d(TAG, i + " " + observePath + fileInfo.get(i));
                     uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
+                    if(i%100 == 0)
+                        Log.d(TAG, "Finish uploading "+i+ " files");
                 }
+                Log.d(TAG, "Finish uploading all files, number is: " + fileInfo.size());
                 try {
                     sleep(10000);
                 }catch (Exception e){
@@ -159,30 +162,34 @@ class TcpClientThread extends Thread
                 try {
                     // ask to upload a file
                     outputStream.write(UPLOAD_FILE_REQUEST.getBytes());
+                    //Log.d(TAG, "write upload request");
                     //receive "asking name answer"
                     receiveLen = inputStream.read(receiveBuffer);
                     receiveData = new String(receiveBuffer, 0, receiveLen);
-                    //System.out.println("yzt1: "+ receiveData);
+                    //Log.d(TAG, "get ASK_FILE_NAME_ANSWER: " + receiveData);
+
                     if (receiveData.compareTo(ASK_FILE_NAME_ANSWER)!=0)
                     {
-                        if(receiveData.compareTo(FILE_EXISTS_ANSWER)==0)
-                        {
-                            Log.d(TAG, "file "+ filename + " already exists in remote server!");
-                            return FILE_EXISTS;
-                        }
-
                         outputStream.write(CANCEL_UPLOAD_REQUEST.getBytes());
                         return UPLOAD_FAILED;
                     }
+
                     //tell file name
+                    //Log.d(TAG, "write prefix+filename");
                     outputStream.write((prefix+filename).getBytes());
 
                     //receive upload file answer
                     receiveLen = inputStream.read(receiveBuffer);
                     receiveData = new String(receiveBuffer, 0, receiveLen);
-                    //System.out.println("yzt2: "+receiveData.toString());
+                    //Log.d(TAG, "get RECEIVE_FILE_ANSWER: " + receiveData);
                     if(receiveData.compareTo(RECEIVE_FILE_ANSWER)!=0)
                     {
+                        if(receiveData.compareTo(FILE_EXISTS_ANSWER)==0)
+                        {
+                            //Log.d(TAG, "file "+ filename + " already exists in remote server!");
+                            return FILE_EXISTS;
+                        }
+
                         outputStream.write(CANCEL_UPLOAD_REQUEST.getBytes());
                         return UPLOAD_FAILED;
                     }
@@ -200,15 +207,16 @@ class TcpClientThread extends Thread
                     File file = new File(absolutePath);
                     FileInputStream fileOutStream = new FileInputStream(file);
                     int count = fileOutStream.available();
-                    System.out.println("yzt3: test file size is "+ count/1024 + "KB");
+                    //System.out.println("yzt3: test file size is "+ count/1024 + "KB");
 
                     //send the file size
                     header = intToByte(count);
                     outputStream.write(header);
+                    //Log.d(TAG, "write header");
 
                     int packetSize = DEFAULT_PACKET_SIZE;
                     int packetCount = count/packetSize;
-                    int lastSize = count - packetSize * packetCount;
+                    int finalSize = count - packetSize * packetCount;
 
                     //send the file
                     byte[] sendFileBuffer = new byte[packetSize];
@@ -217,15 +225,15 @@ class TcpClientThread extends Thread
                         fileOutStream.read(sendFileBuffer, 0, packetSize);
                         outputStream.write(sendFileBuffer);
                     }
-                    if (lastSize!=0)
+                    if (finalSize!=0)
                     {
-                        sendFileBuffer = new byte[lastSize];
-                        fileOutStream.read(sendFileBuffer, 0, lastSize);
+                        sendFileBuffer = new byte[finalSize];
+                        fileOutStream.read(sendFileBuffer, 0, finalSize);
                         outputStream.write(sendFileBuffer);
                     }
 
                     //System.out.println("yzt4: client finished sending file");
-                    Log.d(TAG, "Finish upload" + filename);
+                    //Log.d(TAG, "Finish upload" + filename);
                     //outputStream.flush();
                     fileOutStream.close();
 

@@ -71,17 +71,20 @@ class TcpServerBuildThread(object):
 
 IDENTITY = ""
 
-UPLOAD_FILE_REQUEST = "UPLOADFILE"
-DOWNLOAD_FILE_REQUEST = "DOWNLOADFILE"
+UPLOAD_FILE_REQUEST = "UPLOADFILE$"
+DOWNLOAD_FILE_REQUEST = "DOWNLOADFILE$"
 
-CANCEL_UPLOAD_REQUEST = "CANCELUPLOAD"
+CANCEL_UPLOAD_REQUEST = "CANCELUPLOAD$"
 
 # cancel any activity
-CANCEL_ALL = "CANCELALL"
+CANCEL_ALL = "CANCELALL$"
 
-ASK_FILE_NAME_ANSWER = "ASK_FILE_NAME"
-FILE_EXISTS_ANSWER = "FILE_EXISTS"
-RECEIVE_FILE_ANSWER = "RECEIVE_FILE"
+ASK_FILE_NAME_ANSWER = "ASK_FILE_NAME$"
+FILE_EXISTS_ANSWER = "FILE_EXISTS$"
+RECEIVE_FILE_ANSWER = "RECEIVE_FILE$"
+
+
+UNKNOWN_REQUEST = "UNKNOWN_REQUEST"
 
 DEFAULT_PACKET_SIZE = 1024
 
@@ -134,6 +137,7 @@ class TcpServerTransThread(object):
 
             # receive the file's name
             tmp = self.clientSock.recv(128)
+            # print "receive filename: ", tmp
 
             # some accident happens to the client
             if tmp == CANCEL_UPLOAD_REQUEST:
@@ -144,13 +148,13 @@ class TcpServerTransThread(object):
             prefix, filenameWithPath = tmp.split(' ', 1)
             if prefix != "filename":
                 return 2
-            print "filename: ", filenameWithPath
+            # print "filename: ", filenameWithPath
 
             # handle filename
             dir = self.syncDir
             _, filename = filenameWithPath.split("/", 1)
             list = filename.split('/')
-            filename = list.pop()
+            list.pop()
             for name in list:
                 dir = dir + '/' + name
                 if not os.path.exists(dir):
@@ -163,15 +167,15 @@ class TcpServerTransThread(object):
 
             # ask the client to upload the whole file
             self.clientSock.send(RECEIVE_FILE_ANSWER)
-            print "start receiving file"
+            # print "start receiving file"
 
             # open or create a file and write into it
             file = open(self.syncDir + filenameWithPath, 'wb')
 
             # header tells how many bytes the file's size was
-            header = self.clientSock.recv(4)
+            header = self.readFixSize(4)
             fileSize = struct.unpack('i', header)[0]
-            print "filesize: ", fileSize
+            # print "get header; filesize: ", fileSize
 
             # receive packet by packet
             packetSize = DEFAULT_PACKET_SIZE    # default: 1024
@@ -190,6 +194,7 @@ class TcpServerTransThread(object):
                     l = len(packet)
                     t -= l
                     file.write(packet)
+            # print "finish uploading"
 
             file.close()
 
@@ -199,6 +204,30 @@ class TcpServerTransThread(object):
             return 1
         return 0
 
+    # ensure we read some certain bytes
+    def readFixSize(self, size):
+        result = ""
+        t = size
+        while t > 0:
+            tmp = self.clientSock.recv(t)
+            result = result + tmp
+            l = len(tmp)
+            t -= l
+
+        return result
+
+    def readWithCheck(self, mark = "$", maxSize = 32):
+        result = ""
+        tmp = ""
+        count = 0
+        while tmp!=mark:
+            tmp = self.clientSock.recv(1)
+            result = result + tmp
+            if tmp!="":
+                count += 1
+            if count >= 32:
+                return UNKNOWN_REQUEST
+        return result
 
 
     def transThreadRun(self):
@@ -207,16 +236,19 @@ class TcpServerTransThread(object):
         print "start a tcp trans thread"
         while not self.isInterrupted():
             try:
-                data = self.clientSock.recv(32)
+                # bug: we don't know if it read the whole word...
+                data = self.readWithCheck("$", 32)
                 if data == b"":
                     print "client has disconnected socket"
                     break
 
                 # print "request is: ", data
+                # print data
                 if data == UPLOAD_FILE_REQUEST:
                     status = self.handleUploadRequest()
                     if status == 0:
-                        print "upload file sucess!"
+                        # print "upload file sucess!"
+                        continue
                     # elif status == -1:
                     #     print "upload file success!"
 
