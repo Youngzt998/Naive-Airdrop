@@ -1,5 +1,5 @@
 # PC-Android-File-Synchronization
-Currently, main contributors of the project are all naive undergraduate students, please tolerate any mistakes or bugs which might be stupid for an experienced developer.
+Currently, i am just a naive undergraduate students (In fact, its both my first Java project and my first Python project...), please tolerate any mistakes or bugs which might be stupid for an experienced developer.
 
 ## Preview
 
@@ -13,4 +13,16 @@ We aim to finish two program currently:
 1. Client Program on Android
 
 [Surely there's other "transition pair" such as iOS - WIndows , Android-MacOS, or even iOS- MacOS if you donnot trust Airdrop...]
+
+
+
+## Environment
+
+Windows 10: Python 2.7
+
+Android: Java in Android Studio
+
+
+
+## TBD
 

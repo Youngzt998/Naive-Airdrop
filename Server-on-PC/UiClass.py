@@ -21,3 +21,8 @@ class FileDirGetUI(object):
 
     def getPath(self):
         return self.filePath
+
+
+class initSetUI(object):
+    def __init__(self, tk):
+        
