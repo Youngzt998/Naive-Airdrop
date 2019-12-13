@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Looper;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.ViewDebug;
 
@@ -51,19 +52,20 @@ class TcpClientThread extends Thread
 
     private int DEFAULT_PACKET_SIZE = 1024;
 
-    BroadCastMessageHandler broadCastMessageHandler;
-    UdpReceiveThread udpReceiveThread;
+    private BroadCastMessageHandler broadCastMessageHandler;
+    private UdpReceiveThread udpReceiveThread;
 
-    FileObserveThread fileObserveThread;
+    private FileObserveThread fileObserveThread;
 
-    Socket clientSocket;
-    InputStream inputStream;
-    OutputStream outputStream;
+    private Socket clientSocket;
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
-    Handler handler;
-    Lock socketLock;
+    public Handler handler;
+    private Lock socketLock;
+    private SendThread sendThread;
 
-    TcpClientThread(String observePath, String id, String serverId, String key, Handler handler)
+    TcpClientThread(String observePath, String id, String serverId, String key)
     {
         this.observePath = observePath;
         try {
@@ -80,7 +82,45 @@ class TcpClientThread extends Thread
     @Override
     public void run()
     {
+
         Looper.prepare();
+        handler = new Handler(){
+          @Override
+          public void handleMessage(Message msg)
+          {
+              String singleFilePath = (String)msg.obj;
+              Log.d(TAG, " get single file path: " + singleFilePath);
+              String[] strings = singleFilePath.split("/");
+              try {
+                  Log.d(TAG, "split length is: " + strings.length);
+                  Log.d(TAG, "get single file name" + strings[strings.length - 1]);
+              }catch (Exception e){
+                  e.printStackTrace();
+                  return;
+              }
+
+              if(!(new File(singleFilePath)).exists())
+              {
+                  Log.d(TAG, " single file path error: " + singleFilePath);
+              }
+
+              try {
+                  if(clientSocket.isConnected() && !clientSocket.isClosed())
+                  {
+                      Log.d(TAG, "clientSocket connection is ok");
+                      socketLock.lock();
+                      uploadFile("/" + strings[strings.length - 1], singleFilePath);
+                      socketLock.unlock();
+                  }
+              }
+              catch (Exception e){
+                  e.printStackTrace();
+                  Log.d(TAG, "clientSocket connection is not ok");
+              }
+
+          }
+        };
+
         while (!interrupted())
         {
             //start a subthread to receive broadcast from PC
@@ -141,6 +181,8 @@ class TcpClientThread extends Thread
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+
+                Looper.loop();
             }
             //Map<String, Integer> map = new HashMap();
         }
@@ -149,7 +191,7 @@ class TcpClientThread extends Thread
         }catch (Exception e){
             e.printStackTrace();
         }
-        Looper.loop();
+
 
     }
 
@@ -273,6 +315,44 @@ class TcpClientThread extends Thread
         return UPLOAD_SUCESS;
     }
 
+
+
+
+    private class SendThread extends Thread
+    {
+        public SendThread()
+        {
+
+        }
+
+        @Override
+        public void run()
+        {
+            while (!interrupted())
+            {
+                //the list of current file
+                ArrayList<String> fileInfo = fileObserveThread.getInfo();
+                Log.d(TAG, "Start uploading file, number is: " + fileInfo.size());
+                for (int i =0; i< fileInfo.size(); ++i)
+                {
+                    if(interrupted())
+                        break;
+                    //Log.d(TAG, i + " " + observePath + fileInfo.get(i));
+                    socketLock.lock();
+                    uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
+                    socketLock.unlock();
+                    if(i%100 == 0)
+                        Log.d(TAG, "Finish uploading "+i+ " files");
+                }
+                Log.d(TAG, "Finish uploading all files, number is: " + fileInfo.size());
+                try {
+                    sleep(10000);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }
 
