@@ -15,6 +15,9 @@ import matplotlib.image as mpimg
 myTcpPort = 8002
 targetUdpPort = 8003
 
+open("./register.config", "a").close()
+open("./filepath.config", "a").close()
+
 # keeping broad cast my name, ip. port once a few second
 udpThread = UdpBroadCastThread.UdpBroadcastSendingThread(myTcpPort=myTcpPort, targetUdpPort=targetUdpPort)
 udpThread.startThread()
@@ -25,11 +28,8 @@ tcpServerThread.startMainThread()
 
 # create UI
 top = Tkinter.Tk()
+
+initUI = UiClass.InitSetUI(top)
 fileDirGetUI = UiClass.FileDirGetUI(top)
+
 top.mainloop()
-
-
-
-
-
-

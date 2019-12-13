@@ -1,0 +1,346 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.google.zxing.client.android.test" >
+4
+5    <uses-sdk
+5-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:5:5-74
+6        android:minSdkVersion="24"
+6-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:5:15-41
+7        android:targetSdkVersion="29" />
+7-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:5:42-71
+8
+9    <instrumentation
+9-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:11:5-15:86
+10        android:name="android.test.InstrumentationTestRunner"
+10-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:11:22-75
+11        android:functionalTest="false"
+11-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:14:22-52
+12        android:handleProfiling="false"
+12-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:13:22-53
+13        android:label="Tests for com.google.zxing.client.android.test"
+13-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:15:22-84
+14        android:targetPackage="com.google.zxing.client.android.test" />
+14-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:12:22-82
+15
+16    <uses-permission android:name="android.permission.CAMERA" />
+16-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:5-65
+16-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:22-62
+17    <uses-permission android:name="android.permission.INTERNET" />
+17-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:5-67
+17-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:22-64
+18    <uses-permission android:name="android.permission.VIBRATE" />
+18-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:5-66
+18-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:22-63
+19    <uses-permission android:name="android.permission.FLASHLIGHT" />
+19-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:5-69
+19-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:22-66
+20    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- unavailable in API 23 -->
+20-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:5-72
+20-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:22-69
+21    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+21-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:5-93
+21-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:33:22-90
+22    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+22-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:5-81
+22-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:34:22-78
+23    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+23-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:5-76
+23-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:35:22-73
+24    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="22"/> -->
+24-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:5-76
+24-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:36:22-73
+25    <uses-feature android:name="android.hardware.camera.any" />
+25-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:5-64
+25-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:40:19-61
+26    <uses-feature
+26-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:41:5-43:36
+27        android:name="android.hardware.camera.autofocus"
+27-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:42:9-57
+28        android:required="false" />
+28-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:43:9-33
+29    <uses-feature
+29-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:44:5-46:36
+30        android:name="android.hardware.camera.flash"
+30-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:45:9-53
+31        android:required="false" />
+31-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:46:9-33
+32    <uses-feature android:name="android.hardware.screen.landscape" />
+32-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:47:5-70
+32-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:47:19-67
+33    <uses-feature
+33-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:48:5-50:36
+34        android:name="android.hardware.wifi"
+34-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:49:9-45
+35        android:required="false" />
+35-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:50:9-33
+36
+37    <application
+37-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:7:5-9:19
+38        android:allowBackup="true"
+38-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:53:9-35
+39        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+39-->[androidx.core:core:1.1.0] C:\Users\young\.gradle\caches\transforms-2\files-2.1\7f6c41cc2a14c0fbaa8d0166c17dc544\core-1.1.0\AndroidManifest.xml:24:18-86
+40        android:debuggable="true"
+40-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:7:18-43
+41        android:icon="@drawable/launcher_icon"
+41-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:54:9-47
+42        android:label="@string/app_name"
+42-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:55:9-41
+43        android:logo="@drawable/launcher_icon" >
+43-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:56:9-47
+44        <uses-library android:name="android.test.runner" />
+44-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:8:9-60
+44-->C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger952742577111370263.xml:8:23-57
+45
+46        <activity
+46-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:57:9-122:20
+47            android:name="com.google.zxing.client.android.CaptureActivity"
+47-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:58:13-75
+48            android:clearTaskOnLaunch="true"
+48-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:59:13-45
+49            android:screenOrientation="sensorLandscape"
+49-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:60:13-56
+50            android:stateNotNeeded="true"
+50-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:61:13-42
+51            android:theme="@style/CaptureTheme"
+51-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:62:13-48
+52            android:windowSoftInputMode="stateAlwaysHidden" >
+52-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:63:13-60
+53
+54            <!-- <intent-filter> -->
+55            <!-- <action android:name="android.intent.action.MAIN"/> -->
+56            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+57            <!-- </intent-filter> -->
+58            <intent-filter>
+58-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:69:13-73:29
+59                <action android:name="com.google.zxing.client.android.SCAN" />
+59-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:70:17-79
+59-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:70:25-76
+60
+61                <category android:name="android.intent.category.DEFAULT" />
+61-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+61-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+62            </intent-filter>
+63            <!-- Allow web apps to launch Barcode Scanner by linking to http://zxing.appspot.com/scan. -->
+64            <intent-filter>
+64-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:75:13-85:29
+65                <action android:name="android.intent.action.VIEW" />
+65-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:17-69
+65-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:25-66
+66
+67                <category android:name="android.intent.category.DEFAULT" />
+67-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+67-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+68                <category android:name="android.intent.category.BROWSABLE" />
+68-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:17-78
+68-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:27-75
+69
+70                <data
+70-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:17-84:45
+71                    android:host="zxing.appspot.com"
+71-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:82:21-53
+72                    android:path="/scan"
+72-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:21-41
+73                    android:scheme="http" />
+73-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:84:21-42
+74            </intent-filter>
+75            <!-- We also support a Google Product Search URL. -->
+76            <intent-filter>
+76-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:87:13-97:29
+77                <action android:name="android.intent.action.VIEW" />
+77-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:17-69
+77-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:25-66
+78
+79                <category android:name="android.intent.category.DEFAULT" />
+79-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+79-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+80                <category android:name="android.intent.category.BROWSABLE" />
+80-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:17-78
+80-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:27-75
+81
+82                <data
+82-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:17-84:45
+83                    android:host="www.google.com"
+83-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:82:21-53
+84                    android:path="/m/products/scan"
+84-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:21-41
+85                    android:scheme="http" />
+85-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:84:21-42
+86            </intent-filter>
+87            <!-- And the UK version. -->
+88            <intent-filter>
+88-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:99:13-109:29
+89                <action android:name="android.intent.action.VIEW" />
+89-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:17-69
+89-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:25-66
+90
+91                <category android:name="android.intent.category.DEFAULT" />
+91-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+91-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+92                <category android:name="android.intent.category.BROWSABLE" />
+92-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:17-78
+92-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:27-75
+93
+94                <data
+94-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:17-84:45
+95                    android:host="www.google.co.uk"
+95-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:82:21-53
+96                    android:path="/m/products/scan"
+96-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:21-41
+97                    android:scheme="http" />
+97-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:84:21-42
+98            </intent-filter>
+99            <!-- Support zxing://scan/?... like iPhone app -->
+100            <intent-filter>
+100-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:111:13-121:29
+101                <action android:name="android.intent.action.VIEW" />
+101-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:17-69
+101-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:76:25-66
+102
+103                <category android:name="android.intent.category.DEFAULT" />
+103-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+103-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+104                <category android:name="android.intent.category.BROWSABLE" />
+104-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:17-78
+104-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:79:27-75
+105
+106                <data
+106-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:17-84:45
+107                    android:host="scan"
+107-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:82:21-53
+108                    android:path="/"
+108-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:83:21-41
+109                    android:scheme="zxing" />
+109-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:84:21-42
+110            </intent-filter>
+111        </activity>
+112        <activity
+112-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:123:9-126:45
+113            android:name="com.google.zxing.client.android.PreferencesActivity"
+113-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:124:13-79
+114            android:label="@string/preferences_name"
+114-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:125:13-53
+115            android:stateNotNeeded="true" />
+115-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:126:13-42
+116        <activity
+116-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:127:9-151:20
+117            android:name="com.google.zxing.client.android.encode.EncodeActivity"
+117-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:128:13-81
+118            android:stateNotNeeded="true" >
+118-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:129:13-42
+119            <intent-filter>
+119-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:130:13-134:29
+120                <action android:name="com.google.zxing.client.android.ENCODE" />
+120-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:131:17-81
+120-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:131:25-78
+121
+122                <category android:name="android.intent.category.DEFAULT" />
+122-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+122-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+123            </intent-filter>
+124            <!-- This allows us to handle the Share button in Contacts. -->
+125            <intent-filter>
+125-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:136:13-142:29
+126                <action android:name="android.intent.action.SEND" />
+126-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:137:17-69
+126-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:137:25-66
+127
+128                <category android:name="android.intent.category.DEFAULT" />
+128-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+128-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+129
+130                <data android:mimeType="text/x-vcard" />
+130-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:17-84:45
+131            </intent-filter>
+132            <!-- This allows us to handle sharing any plain text . -->
+133            <intent-filter>
+133-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:144:13-150:29
+134                <action android:name="android.intent.action.SEND" />
+134-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:137:17-69
+134-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:137:25-66
+135
+136                <category android:name="android.intent.category.DEFAULT" />
+136-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+136-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+137
+138                <data android:mimeType="text/plain" />
+138-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:81:17-84:45
+139            </intent-filter>
+140        </activity>
+141        <activity
+141-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:152:9-162:20
+142            android:name="com.google.zxing.client.android.book.SearchBookContentsActivity"
+142-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:153:13-91
+143            android:label="@string/sbc_name"
+143-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:154:13-45
+144            android:screenOrientation="sensorLandscape"
+144-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:155:13-56
+145            android:stateNotNeeded="true" >
+145-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:156:13-42
+146            <intent-filter>
+146-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:157:13-161:29
+147                <action android:name="com.google.zxing.client.android.SEARCH_BOOK_CONTENTS" />
+147-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:158:17-95
+147-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:158:25-92
+148
+149                <category android:name="android.intent.category.DEFAULT" />
+149-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+149-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+150            </intent-filter>
+151        </activity>
+152        <activity
+152-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:163:9-172:20
+153            android:name="com.google.zxing.client.android.share.ShareActivity"
+153-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:164:13-79
+154            android:screenOrientation="user"
+154-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:165:13-45
+155            android:stateNotNeeded="true" >
+155-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:166:13-42
+156            <intent-filter>
+156-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:167:13-171:29
+157                <action android:name="com.google.zxing.client.android.SHARE" />
+157-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:168:17-80
+157-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:168:25-77
+158
+159                <category android:name="android.intent.category.DEFAULT" />
+159-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:17-76
+159-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:72:27-73
+160            </intent-filter>
+161        </activity>
+162        <activity
+162-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:173:9-176:45
+163            android:name="com.google.zxing.client.android.history.HistoryActivity"
+163-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:174:13-83
+164            android:label="@string/history_title"
+164-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:175:13-50
+165            android:stateNotNeeded="true" />
+165-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:176:13-42
+166        <activity
+166-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:177:9-180:45
+167            android:name="com.google.zxing.client.android.share.BookmarkPickerActivity"
+167-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:178:13-88
+168            android:label="@string/bookmark_picker_name"
+168-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:179:13-57
+169            android:stateNotNeeded="true" />
+169-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:180:13-42
+170        <activity
+170-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:181:9-184:45
+171            android:name="com.google.zxing.client.android.share.AppPickerActivity"
+171-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:182:13-83
+172            android:label="@string/app_picker_name"
+172-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:183:13-52
+173            android:stateNotNeeded="true" />
+173-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:184:13-42
+174        <activity
+174-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:185:9-189:45
+175            android:name="com.google.zxing.client.android.HelpActivity"
+175-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:186:13-72
+176            android:label="@string/menu_help"
+176-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:187:13-46
+177            android:screenOrientation="user"
+177-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:188:13-45
+178            android:stateNotNeeded="true" />
+178-->[__tested_artifact__::android] C:\Users\young\Documents\Project\ComputerNetworkProject\Client-on-Android\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:189:13-42
+179    </application>
+180
+181</manifest>

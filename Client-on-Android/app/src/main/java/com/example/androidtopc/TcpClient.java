@@ -3,6 +3,7 @@ package com.example.androidtopc;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Looper;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ViewDebug;
 
@@ -16,7 +17,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import java.util.logging.LogRecord;
 
 
@@ -53,12 +56,14 @@ class TcpClientThread extends Thread
 
     FileObserveThread fileObserveThread;
 
-
     Socket clientSocket;
     InputStream inputStream;
     OutputStream outputStream;
 
-    TcpClientThread(String observePath)
+    Handler handler;
+    Lock socketLock;
+
+    TcpClientThread(String observePath, String id, String serverId, String key, Handler handler)
     {
         this.observePath = observePath;
         try {
@@ -69,6 +74,7 @@ class TcpClientThread extends Thread
         }catch (Exception e){
             e.printStackTrace();
         }
+        socketLock = new ReentrantLock();
     }
 
     @Override
@@ -95,6 +101,12 @@ class TcpClientThread extends Thread
                 serverIP = serverInfo[1];
                 serverPort = Integer.parseInt(serverInfo[2]);
 
+                if(!serverName.equals("NAIVEAIRDROP"))
+                {
+                    Log.d(TAG, "Wrong server name, continue listenting");
+                    continue;
+                }
+
                 //try building a connection
                 clientSocket = new Socket(serverIP, serverPort);
                 outputStream=clientSocket.getOutputStream();
@@ -107,15 +119,19 @@ class TcpClientThread extends Thread
             Log.d(TAG, "connect successed, close broadcast receiving thread!");
             udpReceiveThread.interrupt();
 
-            while (true)
+            while (!interrupted())
             {
                 //the list of current file
                 ArrayList<String> fileInfo = fileObserveThread.getInfo();
                 Log.d(TAG, "Start uploading file, number is: " + fileInfo.size());
                 for (int i =0; i< fileInfo.size(); ++i)
                 {
+                    if(interrupted())
+                        break;
                     //Log.d(TAG, i + " " + observePath + fileInfo.get(i));
-                    uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
+                    socketLock.lock();
+                        uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
+                    socketLock.unlock();
                     if(i%100 == 0)
                         Log.d(TAG, "Finish uploading "+i+ " files");
                 }
@@ -125,10 +141,13 @@ class TcpClientThread extends Thread
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
-
             //Map<String, Integer> map = new HashMap();
+        }
+        try {
+            clientSocket.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
         Looper.loop();
 
@@ -254,35 +273,7 @@ class TcpClientThread extends Thread
         return UPLOAD_SUCESS;
     }
 
-    //subthread
-    class ReceiveThread extends Thread
-    {
-        ReceiveThread(String filename, String path)
-        {
 
-        }
-
-        @Override
-        public void run()
-        {
-
-        }
-    }
-
-    class SendThread extends Thread
-    {
-
-        SendThread(String filename, String path)
-        {
-
-        }
-
-        @Override
-        public void run()
-        {
-
-        }
-    }
 }
 
 

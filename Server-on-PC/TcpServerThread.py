@@ -93,11 +93,17 @@ DEFAULT_PACKET_SIZE = 1024
 # only created in Build Thread
 class TcpServerTransThread(object):
     def __init__(self, clientSock):
+        self.clientName = ""
         self.clientSock = clientSock
         self.exitState = False
         self.exitLock = threading.Lock()
         self.thread = None
-        self.syncDir = "./TestReceiveFile"
+        file = open("./filepath.config", 'r')
+        filePath = file.read()
+        if not os.path.exists(filePath):
+            os.makedirs(filePath)
+        self.syncDir = filePath
+        file.close()
 
 
     def interrupt(self):
@@ -197,6 +203,7 @@ class TcpServerTransThread(object):
             # print "finish uploading"
 
             file.close()
+            print "finish uploading " + filenameWithPath
 
 
         except Exception, e:
