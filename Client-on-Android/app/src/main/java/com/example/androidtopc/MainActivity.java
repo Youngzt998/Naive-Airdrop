@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private String id = "";
     private String serverId = "";
     private String key = "";
+    private String iv = "";
 
     EditText editText;
 
@@ -93,11 +94,17 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "path_2 is : " + path_2);
 
 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.d(TAG, "failed opening filepath.config");
+        }
 
-            fileInputStream = new FileInputStream(this.getFilesDir().getAbsolutePath() + "/register.config");
-            buffer = new byte[256];
-            l = fileInputStream.read(buffer);
-            stringBuilder = new StringBuilder("");
+        try {
+            FileInputStream fileInputStream = new FileInputStream(this.getFilesDir().getAbsolutePath() + "/register.config");
+            byte[] buffer = new byte[256];
+            int l = fileInputStream.read(buffer);
+            StringBuilder stringBuilder = new StringBuilder("");
             while (l>0)
             {
                 stringBuilder.append(new String(buffer, 0, l));
@@ -107,17 +114,17 @@ public class MainActivity extends AppCompatActivity {
             id = code[0];
             serverId = code[1];
             key = code[2];
-            Log.d(TAG, "code is : " + id + " " + serverId + " " + key);
-        }
-        catch (Exception e){
+            iv = code[3];
+            Log.d(TAG, "code is : " + id + " " + serverId + " " + key + " " + iv);
+        }catch (Exception e){
             e.printStackTrace();
-            Log.d(TAG, "failed opening filepath.config");
+            Log.d(TAG, "failed opening register.config");
         }
 
         handler = new Handler();
 
         observePath = Environment.getExternalStorageDirectory().getPath() + myCameraPath;
-        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key);
+        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key, iv);
         tcpClientThread.start();
 
         editText = (EditText) findViewById(R.id.editText);
@@ -157,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "failed opening filepath.config");
         }
 
-        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key);
+        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key, iv);
         tcpClientThread.start();
     }
 
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }
         String[] codes = newActivityResultString.split(" ");
         try {
-            if(codes[0].length()!=16 || codes[1].length()!=16 || codes[2].length()!= 16)
+            if(codes[0].length()!=16 || codes[1].length()!=16 || codes[2].length()!= 16 || codes[3].length()!= 16)
             {
                 Log.d(TAG, "Scan failed: wrong QR Code");
                 Toast.makeText(MainActivity.this,"Wrong QR Code, retry !!", Toast.LENGTH_LONG).show();
@@ -202,9 +209,10 @@ public class MainActivity extends AppCompatActivity {
         id = codes[0];
         serverId = codes[1];
         key = codes[2];
+        iv = codes[3];
 
         tcpClientThread.interrupt();
-        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key);
+        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key, iv);
         tcpClientThread.start();
     }
 

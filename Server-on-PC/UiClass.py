@@ -63,13 +63,13 @@ class InitSetUI(object):
         clientId = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16)).encode('utf-8')
         serverId = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16)).encode('utf-8')
         key = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16)).encode('utf-8')
-        # iv = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16)).encode('utf-8')
+        iv = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16)).encode('utf-8')
         print "client id: ", clientId
         print "key: ", key
 
 
         file = open("./register.config", "a")
-        file.write(clientId + ' ' + serverId + ' ' + key + '\n')
+        file.write(clientId + ' ' + serverId + ' ' + key + ' ' + iv + '\n')
         file.close()
 
         cipher = CipherClass.CipherClass(id, key)
@@ -77,7 +77,7 @@ class InitSetUI(object):
         # print cipher.decrypt( cipher.encrypt("test cipher") )
 
         # definitely not a good way to show, but don't know a better one
-        img = qrcode.make(clientId + ' ' + serverId + ' ' + key)
+        img = qrcode.make(clientId + ' ' + serverId + ' ' + key + ' ' + iv)
         img.show()
 
         # img.save('test.png')

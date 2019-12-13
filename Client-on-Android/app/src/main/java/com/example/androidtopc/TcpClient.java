@@ -38,8 +38,10 @@ class TcpClientThread extends Thread
 
     private String myCameraPath = "/DCIM/Camera";
 
+    private String IDENTIFICATION_REQUEST = "IDENTIFICATION$";
     private String UPLOAD_FILE_REQUEST = "UPLOADFILE$";
 
+    private String ASK_CLIENT_NAME_ANSWER = "ASK_CLIENT_NAME$";
     private String ASK_FILE_NAME_ANSWER = "ASK_FILE_NAME$";
     private String RECEIVE_FILE_ANSWER = "RECEIVE_FILE$";
     private String FILE_EXISTS_ANSWER = "FILE_EXISTS$";
@@ -63,9 +65,14 @@ class TcpClientThread extends Thread
 
     public Handler handler;
     private Lock socketLock;
-    private SendThread sendThread;
+    private UploadThread uploadThread;
 
-    TcpClientThread(String observePath, String id, String serverId, String key)
+    private String id;
+    private String serverId;
+    private String key;
+    private String iv;
+
+    TcpClientThread(String observePath, String id, String serverId, String key, String iv)
     {
         this.observePath = observePath;
         try {
@@ -77,49 +84,19 @@ class TcpClientThread extends Thread
             e.printStackTrace();
         }
         socketLock = new ReentrantLock();
+        uploadThread = new UploadThread();
+
+        this.id = id;
+        this.serverId = serverId;
+        this.key = key;
+        this.iv = iv;
     }
 
     @Override
     public void run()
     {
 
-        Looper.prepare();
-        handler = new Handler(){
-          @Override
-          public void handleMessage(Message msg)
-          {
-              String singleFilePath = (String)msg.obj;
-              Log.d(TAG, " get single file path: " + singleFilePath);
-              String[] strings = singleFilePath.split("/");
-              try {
-                  Log.d(TAG, "split length is: " + strings.length);
-                  Log.d(TAG, "get single file name" + strings[strings.length - 1]);
-              }catch (Exception e){
-                  e.printStackTrace();
-                  return;
-              }
 
-              if(!(new File(singleFilePath)).exists())
-              {
-                  Log.d(TAG, " single file path error: " + singleFilePath);
-              }
-
-              try {
-                  if(clientSocket.isConnected() && !clientSocket.isClosed())
-                  {
-                      Log.d(TAG, "clientSocket connection is ok");
-                      socketLock.lock();
-                      uploadFile("/" + strings[strings.length - 1], singleFilePath);
-                      socketLock.unlock();
-                  }
-              }
-              catch (Exception e){
-                  e.printStackTrace();
-                  Log.d(TAG, "clientSocket connection is not ok");
-              }
-
-          }
-        };
 
         while (!interrupted())
         {
@@ -159,31 +136,52 @@ class TcpClientThread extends Thread
             Log.d(TAG, "connect successed, close broadcast receiving thread!");
             udpReceiveThread.interrupt();
 
-            while (!interrupted())
-            {
-                //the list of current file
-                ArrayList<String> fileInfo = fileObserveThread.getInfo();
-                Log.d(TAG, "Start uploading file, number is: " + fileInfo.size());
-                for (int i =0; i< fileInfo.size(); ++i)
-                {
-                    if(interrupted())
-                        break;
-                    //Log.d(TAG, i + " " + observePath + fileInfo.get(i));
-                    socketLock.lock();
-                        uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
-                    socketLock.unlock();
-                    if(i%100 == 0)
-                        Log.d(TAG, "Finish uploading "+i+ " files");
-                }
-                Log.d(TAG, "Finish uploading all files, number is: " + fileInfo.size());
-                try {
-                    sleep(10000);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+            identification();
 
-                Looper.loop();
-            }
+            uploadThread.start();
+
+            //reveive message from main thread, can upload single file
+            Looper.prepare();
+            handler = new Handler()
+            {
+                @Override
+                public void handleMessage(Message msg)
+                {
+                    String singleFilePath = (String)msg.obj;
+                    Log.d(TAG, " get single file path: " + singleFilePath);
+                    String[] strings = singleFilePath.split("/");
+                    try {
+                        Log.d(TAG, "split length is: " + strings.length);
+                        Log.d(TAG, "get single file name" + strings[strings.length - 1]);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        return;
+                    }
+
+                    if(!(new File(singleFilePath)).exists())
+                    {
+                        Log.d(TAG, " single file path error: " + singleFilePath);
+                    }
+
+                    try {
+                        if(clientSocket.isConnected() && !clientSocket.isClosed())
+                        {
+                            Log.d(TAG, "clientSocket connection is ok");
+
+                            socketLock.lock();
+                                uploadFile("/" + strings[strings.length - 1], singleFilePath);
+                            socketLock.unlock();
+                        }
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        Log.d(TAG, "clientSocket connection is not ok");
+                    }
+
+                }
+            };
+            Looper.loop();
+
             //Map<String, Integer> map = new HashMap();
         }
         try {
@@ -209,7 +207,7 @@ class TcpClientThread extends Thread
     private int UPLOAD_FAILED = 1;
     private int FILE_EXISTS = 2;
     //filename: relative path
-    int uploadFile(String filename, String absolutePath)
+    private int uploadFile(String filename, String absolutePath)
     {
 
         //start file transfer
@@ -315,12 +313,43 @@ class TcpClientThread extends Thread
         return UPLOAD_SUCESS;
     }
 
-
-
-
-    private class SendThread extends Thread
+    private int identification()
     {
-        public SendThread()
+        int receiveLen;
+        String receiveData;
+        byte[] receiveBuffer = new byte[32];
+
+        try {
+            outputStream.write(IDENTIFICATION_REQUEST.getBytes());
+            //Log.d(TAG, "write upload request");
+            //receive "asking name answer"
+            receiveLen = inputStream.read(receiveBuffer);
+            receiveData = new String(receiveBuffer, 0, receiveLen);
+            if(!receiveData.equals(ASK_CLIENT_NAME_ANSWER))
+            {
+                return -1;
+            }
+            byte[] byteId = (id + "#").getBytes();
+            byte[] cipherId = CipherTool.encrypt(id + "#", key, iv);
+            outputStream.write(byteId);
+            outputStream.write(cipherId);
+
+            receiveLen = inputStream.read(receiveBuffer);
+            receiveData = new String(receiveBuffer, 0, receiveLen);
+            Log.d(TAG, "encrypted identity data: " + receiveData);
+            receiveData = CipherTool.decrypt(receiveBuffer, key, iv);
+            Log.d(TAG, "decrypted identity data: " + receiveData);
+            sleep(1000);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private class UploadThread extends Thread
+    {
+        public UploadThread()
         {
 
         }
@@ -338,8 +367,10 @@ class TcpClientThread extends Thread
                     if(interrupted())
                         break;
                     //Log.d(TAG, i + " " + observePath + fileInfo.get(i));
+
+                    // in case conflict happened
                     socketLock.lock();
-                    uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
+                        uploadFile(fileInfo.get(i), observePath + fileInfo.get(i));
                     socketLock.unlock();
                     if(i%100 == 0)
                         Log.d(TAG, "Finish uploading "+i+ " files");
@@ -351,6 +382,7 @@ class TcpClientThread extends Thread
                     e.printStackTrace();
                 }
             }
+
         }
     }
 

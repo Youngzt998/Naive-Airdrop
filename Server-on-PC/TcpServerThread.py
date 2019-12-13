@@ -4,9 +4,12 @@ import threading as threading
 import struct
 import os
 
-
+from binascii import b2a_hex, a2b_hex
 
 # firstly build a server, listen to file transfer request
+import CipherClass
+
+
 class TcpServerBuildThread(object):
     def __init__(self, myTcpPort=8002):
         self.maxClientNum = 3
@@ -71,6 +74,9 @@ class TcpServerBuildThread(object):
 
 IDENTITY = ""
 
+IDENTIFICATION_REQUEST = "IDENTIFICATION$"
+ASK_CLIENT_NAME_ANSWER = "ASK_CLIENT_NAME$"
+
 UPLOAD_FILE_REQUEST = "UPLOADFILE$"
 DOWNLOAD_FILE_REQUEST = "DOWNLOADFILE$"
 
@@ -105,6 +111,8 @@ class TcpServerTransThread(object):
         self.syncDir = filePath
         file.close()
 
+        self.identified = False
+
 
     def interrupt(self):
         self.exitLock.acquire()
@@ -126,8 +134,48 @@ class TcpServerTransThread(object):
         return
 
 
-
+    # a very ugly function ... time is not enough QAQ
     def handleIdentityRequest(self):
+        try:
+            self.clientSock.send(ASK_CLIENT_NAME_ANSWER)
+            plainId = self.clientSock.recv(128)
+            plainId = plainId.split("#")
+            cipherId = self.clientSock.recv(128)
+            cipherId = cipherId.split('#')
+            print "plain id: ", plainId
+            print "cipher id: ", cipherId
+
+            clientDir = {}
+            registerFile = open("./register.config", "r")
+            while True:
+                line = registerFile.readline()
+                if line == "":
+                    break
+                clientId, serverId, key, iv = line.split(" ")
+                iv = iv.rstrip("\n")
+                clientDir[clientId] = (serverId, key, iv)
+
+            if not clientDir.has_key(plainId[0]):
+                print "no such client"
+                return
+            (serverId, key, iv) = clientDir[plainId[0]]
+            cipher = CipherClass.CipherClass(id, key, iv)
+            decryptedId, _ = cipher.decrypt(cipherId[0]).split("#")
+            print "decryptedId: ", decryptedId
+
+            if decryptedId != plainId[0]:
+                print "identification not passed!"
+
+            cipehrServerId = cipher.encrypt(serverId.encode("utf-8"))
+            print serverId, cipehrServerId
+
+            self.clientSock.send(cipehrServerId)
+
+            self.identified = True
+            # decriptedId = Ci
+
+        except Exception, e:
+            print "Identification function error: ", e.message
         return
 
     def handleFileListRequest(self):
@@ -248,6 +296,11 @@ class TcpServerTransThread(object):
                 if data == b"":
                     print "client has disconnected socket"
                     break
+
+                if data == IDENTIFICATION_REQUEST:
+                    status = self.handleIdentityRequest()
+                    if status == 0:
+                        print "identification passed!"
 
                 # print "request is: ", data
                 # print data

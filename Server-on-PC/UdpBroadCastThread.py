@@ -1,7 +1,7 @@
 import socket as socket
 import time as time
 import threading as threading
-
+from binascii import b2a_hex, a2b_hex
 
 class UdpBroadcastSendingThread(object):
     def __init__(self, myTcpPort, targetUdpPort=8003):
