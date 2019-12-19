@@ -96,8 +96,6 @@ class TcpClientThread extends Thread
     public void run()
     {
 
-
-
         while (!interrupted())
         {
             //start a subthread to receive broadcast from PC

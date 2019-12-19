@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             serverId = code[1];
             key = code[2];
             iv = code[3];
-            Log.d(TAG, "code is : " + id + " " + serverId + " " + key + " " + iv);
+            Log.d(TAG, "current code is : " + id + " " + serverId + " " + key + " " + iv);
         }catch (Exception e){
             e.printStackTrace();
             Log.d(TAG, "failed opening register.config");
@@ -130,9 +130,6 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
         editText.setText(path_2);
 
-
-        //UdpSendThread udpSendThread = new UdpSendThread(this.getApplicationContext());
-        //udpSendThread.start();
 
     }
 
@@ -174,46 +171,60 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
         startActivityForResult(intent,REQUEST_CODE_QR_STRING);
-        Log.d(TAG, "QR Code is: " + newActivityResultString);
-        if(newActivityResultString == null || newActivityResultString.equals("null") )
-        {
-            Log.d(TAG, "Scan failed: string is null");
-            Toast.makeText(MainActivity.this,"Scan failed, retry !!", Toast.LENGTH_LONG).show();
-            return;
-        }
-        String[] codes = newActivityResultString.split(" ");
+
+        String[] codes={"", "", ""};
         try {
-            if(codes[0].length()!=16 || codes[1].length()!=16 || codes[2].length()!= 16 || codes[3].length()!= 16)
-            {
-                Log.d(TAG, "Scan failed: wrong QR Code");
-                Toast.makeText(MainActivity.this,"Wrong QR Code, retry !!", Toast.LENGTH_LONG).show();
+            if (newActivityResultString == null || newActivityResultString.equals("null")) {
+                Log.d(TAG, "Scan failed: string is null");
+                Toast.makeText(MainActivity.this, "Scan failed, retry !!", Toast.LENGTH_LONG).show();
                 return;
             }
-        }catch (Exception e)
-        {
+            codes = newActivityResultString.split(" ");
+            try {
+                if (codes[0].length() != 16 || codes[1].length() != 16 || codes[2].length() != 16 || codes[3].length() != 16) {
+                    Log.d(TAG, "Scan failed: wrong QR Code");
+                    //Toast.makeText(MainActivity.this, "Wrong QR Code, retry !!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+            Toast.makeText(MainActivity.this, "Register succussesfully!", Toast.LENGTH_LONG).show();
+        }catch (Exception e){
             e.printStackTrace();
-            return;
+
         }
-        Toast.makeText(MainActivity.this,"Register succussesfully!", Toast.LENGTH_LONG).show();
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(this.getFilesDir().getAbsolutePath() + "/register.config");
             fileOutputStream.write(newActivityResultString.getBytes());
             Log.d(TAG, this.getFilesDir().getAbsolutePath());
+            fileOutputStream.close();
         }
         catch (Exception e){
             e.printStackTrace();
             Log.d(TAG, "failed opening filepath.config");
         }
 
-        id = codes[0];
-        serverId = codes[1];
-        key = codes[2];
-        iv = codes[3];
+        try {
+            id = codes[0];
+            serverId = codes[1];
+            key = codes[2];
+            iv = codes[3];
 
-        tcpClientThread.interrupt();
-        tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key, iv);
-        tcpClientThread.start();
+            Log.d(TAG, "id, serverId, key, iv: " + id + " " + serverId + " " + key + " " + iv);
+
+//            tcpClientThread.interrupt();
+//            tcpClientThread = new TcpClientThread(path_1 + path_2, id, serverId, key, iv);
+//            tcpClientThread.start();
+
+            Log.d(TAG, "path_1 + path_2: " + path_1 + path_2);
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "open new thread error!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 
@@ -257,12 +268,20 @@ public class MainActivity extends AppCompatActivity {
             Uri uri = data.getData();
             Toast.makeText(this, "single file path："+ uri.getPath().toString(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "single file path: " + uri.getPath().toString());
-            newActivityResultString = getPhotoPathFromContentUri(this, uri)  ;
+            newActivityResultString = getPhotoPathFromContentUri(this, uri);
+            try{
+                Message msg = new Message();
+                msg.obj = newActivityResultString;
+                tcpClientThread.handler.sendMessage(msg);
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(MainActivity.this, "Upload failed, please check your connection!", Toast.LENGTH_LONG).show();
+
+            }
+
         }
 
-        Message msg = new Message();
-        msg.obj = newActivityResultString;
-        tcpClientThread.handler.sendMessage(msg);
+
 
     }
 

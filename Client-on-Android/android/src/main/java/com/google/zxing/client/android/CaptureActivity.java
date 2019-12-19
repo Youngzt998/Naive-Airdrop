@@ -460,6 +460,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       Intent resultIntent = new Intent();
       Bundle bundle = new Bundle();
       bundle.putString("resultString", resultString);
+      Toast.makeText(CaptureActivity.this, "Result: " + resultString, Toast.LENGTH_SHORT);
+
       resultIntent.putExtras(bundle);
       this.setResult(RESULT_OK, resultIntent);
     }

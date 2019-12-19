@@ -142,9 +142,10 @@ class TcpServerTransThread(object):
             plainId = plainId.split("#")
             cipherId = self.clientSock.recv(128)
             cipherId = cipherId.split('#')
-            print "plain id: ", plainId
-            print "cipher id: ", cipherId
+            # print "plain id: ", plainId
+            # print "cipher id: ", cipherId
 
+            # check registered clients
             clientDir = {}
             registerFile = open("./register.config", "r")
             while True:
@@ -161,10 +162,12 @@ class TcpServerTransThread(object):
             (serverId, key, iv) = clientDir[plainId[0]]
             cipher = CipherClass.CipherClass(id, key, iv)
             decryptedId, _ = cipher.decrypt(cipherId[0]).split("#")
-            print "decryptedId: ", decryptedId
+            # print "decryptedId: ", decryptedId
 
             if decryptedId != plainId[0]:
                 print "identification not passed!"
+                self.clientSock.send("")
+                return -1
 
             cipehrServerId = cipher.encrypt(serverId.encode("utf-8"))
             print serverId, cipehrServerId
@@ -176,7 +179,7 @@ class TcpServerTransThread(object):
 
         except Exception, e:
             print "Identification function error: ", e.message
-        return
+        return 0
 
     def handleFileListRequest(self):
         return
@@ -186,6 +189,9 @@ class TcpServerTransThread(object):
 
     def handleUploadRequest(self):
         try:
+            if not self.identified:
+                self.clientSock.send("")
+                return -1
             # ask the client to give the file name
             self.clientSock.send(ASK_FILE_NAME_ANSWER)
 
@@ -301,6 +307,8 @@ class TcpServerTransThread(object):
                     status = self.handleIdentityRequest()
                     if status == 0:
                         print "identification passed!"
+                    else:
+                        print "identification not passed!"
 
                 # print "request is: ", data
                 # print data

@@ -12,7 +12,7 @@ We aim to finish two program currently:
 0. Server Program on Windows
 1. Client Program on Android
 
-[Surely there's other "transition pair" such as iOS - WIndows , Android-MacOS, or even iOS- MacOS if you donnot trust Airdrop...]
+[Surely we can try other "transition pair" such as iOS - WIndows , Android-MacOS, or even iOS- MacOS if you donnot trust Airdrop...]
 
 
 
@@ -24,5 +24,13 @@ Android: Java in Android Studio
 
 
 
-## TBD
+## Server-on-PC
+
+
+
+## Client-on-Android
+
+
+
+
 

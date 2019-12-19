@@ -72,7 +72,7 @@ class InitSetUI(object):
         file.write(clientId + ' ' + serverId + ' ' + key + ' ' + iv + '\n')
         file.close()
 
-        cipher = CipherClass.CipherClass(id, key)
+        cipher = CipherClass.CipherClass(id, key, iv)
         # print cipher.encrypt("test cipher")
         # print cipher.decrypt( cipher.encrypt("test cipher") )
 
