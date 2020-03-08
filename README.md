@@ -3,7 +3,7 @@ Currently, i am just a naive undergraduate students (In fact, its both my first 
 
 ## Preview
 
-There might be a situation where we expect our computer to automatically synchronize some files on our mobile phone, with out using USB or manually operating, though sometimes, we do not trust a company's application, or even don't trust the Global Internet. We might want to simplify the file transition to a local area. 
+There might be a situation where we expect our computer to automatically synchronize some files on our mobile phone, without using USB or manually operating, though sometimes, we do not trust a company's application, or even don't trust the Global Internet. We might want to simplify the file transition to a local area. 
 
 This project implement a mini file synchronization system between Windows (written in python) and Android OS. It works without the whole Internet but only in a local area network (within the same Wi-Fi, in fact).  The final goal includes auto connection, auto detecting changes of the observing files on client devices,  encyption in transfer, etc.
 
