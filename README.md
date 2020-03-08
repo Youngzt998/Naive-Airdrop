@@ -1,4 +1,4 @@
-# PC-Android-File-Synchronization
+# Naive-Airdrop
 Currently, i am just a naive undergraduate students (In fact, its both my first Java project and my first Python project...), please tolerate any mistakes or bugs which might be stupid for an experienced developer.
 
 ## Preview
